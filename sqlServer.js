@@ -4,10 +4,10 @@ const db = {};
 // config for your database
 const config = {
     //port: parseInt(process.env.DB_PORT, 10),
-    server: 'ttope', 
-    user: 'MneUsDesa',
-    password: 'f1a2c3il',
-    database: 'TRITON_SOPTEC_DESARROLLO',
+    server: 'soptec.database.windows.net', 
+    user: 'UseMneNhadasoft',
+    password: 'TRcdfdG$H8%4eD9(',
+    database: 'TRITON_SOPTEC',
     stream: false,
     options: {
         trustedConnection: true,
