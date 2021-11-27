@@ -1,0 +1,23 @@
+{
+  "name": "puppetterpayvalida",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node payvalida.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "await-timeout": "^1.1.1",
+    "express": "^4.17.1",
+    "mssql": "^7.3.0",
+    "puppeteer": "^11.0.0",
+    "puppeteer-extra": "^3.2.3",
+    "puppeteer-extra-plugin-recaptcha": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/puppeteer": "^5.4.4"
+  }
+}
