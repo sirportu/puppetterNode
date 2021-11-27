@@ -16,7 +16,7 @@ puppeteer.use(
 
 (async () => {
 
-    const array = [0,4,8,12,16,20,24,28];
+    const array = [0,4,8,12,16,20,24,28,32,36];
     
     array.forEach(async element => {
 
@@ -42,7 +42,7 @@ puppeteer.use(
                         const row = result.recordset[i];
                         let banderaCaptcha = true;
                         await page.goto('https://pagostore.com/app').catch(e => void 0);;
-                        await Timeout.set(5000);
+                        await Timeout.set(6000);
                         console.log('PAGINA CARGADA');
                         console.log('INICIO PROCESO - ', row.vchIDJugador);
                         await page.click('ul._3N-Z47ZSQckCYoninQd4TA li:nth-child(1) > a');
