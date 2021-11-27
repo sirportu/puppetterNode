@@ -12,6 +12,7 @@
   "dependencies": {
     "await-timeout": "^1.1.1",
     "mssql": "^7.3.0",
+    "puppeteer": "^12.0.0",
     "puppeteer-extra": "^3.2.3",
     "puppeteer-extra-plugin-recaptcha": "^3.5.0"
   }
