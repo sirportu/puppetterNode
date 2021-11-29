@@ -16,7 +16,7 @@ puppeteer.use(
 
 (async () => {
 
-    const array = [0,4,8,12,16,20,24,28,32,36];
+    const array = [0,4,8,12,16,20,24,28,32,36,40];
     
     array.forEach(async element => {
 
@@ -34,9 +34,13 @@ puppeteer.use(
 
         async function proceso() {
             try {
-                db.sql('SELECT TOP 5 intCodigoTransaccionBemovilTemp, vchIDJugador, decValorPaquete, vchDescripcionPaquete FROM TransaccionProcesarTemp WHERE vchReferenciaPago IS NULL AND bitIDJugadorValido IS NULL AND vchObservacionGeneracionReferencia IS NULL AND vchObservacion IS NULL AND (dtmFechaActualizacion IS NULL OR DATEDIFF(MI, dtmFechaActualizacion, GETDATE()) > 5) ORDER BY intCodigoTransaccionBemovilTemp',async function(err,result) {
+                db.sql("SELECT TOP 5 intCodigoTransaccionBemovilTemp, vchIDJugador, decValorPaquete, isnull(vchDescripcionPaquete, 'Diamond') as vchDescripcionPaquete FROM TransaccionProcesarTemp WHERE vchReferenciaPago IS NULL AND bitIDJugadorValido IS NULL AND vchObservacionGeneracionReferencia IS NULL AND vchObservacion IS NULL AND (dtmFechaActualizacion IS NULL OR DATEDIFF(MI, dtmFechaActualizacion, GETDATE()) > 3) ORDER BY intCodigoTransaccionBemovilTemp",async function(err,result) {
                     console.log('DATOS OBTENIDOS - ', result.recordset.length);
-                    db.sql("UPDATE TransaccionProcesarTemp SET dtmFechaActualizacion = GETDATE() WHERE intCodigoTransaccionBemovilTemp IN (" + result.recordset.map(m => m.intCodigoTransaccionBemovilTemp).join(',') + ")",function(err,result) {});
+                    
+                    if (result.recordset.length > 0) {
+                        db.sql("UPDATE TransaccionProcesarTemp SET dtmFechaActualizacion = GETDATE() WHERE intCodigoTransaccionBemovilTemp IN (" + result.recordset.map(m => m.intCodigoTransaccionBemovilTemp).join(',') + ")",function(err,result) {});
+                    }
+
                     console.log('DATOS RESERVADOS');
                     for (let i = 0 ; i < result.recordset.length ; i++) {
                         const row = result.recordset[i];
@@ -95,7 +99,7 @@ puppeteer.use(
                                         console.log('EVALUAR ELEMENTO - ', textoPaq);
                                         const textoDes = (await page.$$eval('div._3itcD-Pl_RmzhuigTd5VQN > div:nth-child(2) > a:nth-child(' + index + ') > ._3V9DM0qZ5XUDQCKZboGom > ._1v4QMCKGPgfdVXYRO07us > div', (elements) => elements[0].innerText));
                                         console.log('EVALUAR ELEMENTO - ', textoDes);
-                                        if(parseFloat(textoPaq) == parseFloat(row.decValorPaquete) && ((row.vchDescripcionPaquete && row.vchDescripcionPaquete.length > 0 && row.vchDescripcionPaquete == textoDes) || (!row.vchDescripcionPaquete || row.vchDescripcionPaquete.length == 0))) {
+                                        if(parseFloat(textoPaq) == parseFloat(row.decValorPaquete) && textoDes.indexOf(row.vchDescripcionPaquete) == 0 ) {
                                             console.log('COMPRA ENCONTRADA');
                                             await page.click('div._3itcD-Pl_RmzhuigTd5VQN > div:nth-child(2) > a:nth-child(' + index + ')');
                                             await Timeout.set(2000);
